@@ -7,7 +7,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 import "./Header.css";
 
-const Header = () => {
+const Header = ({ onPlaceChanged, onLoad }) => {
   const isLaptop = useMediaQuery("(min-width:768px)");
 
   return (
@@ -17,17 +17,21 @@ const Header = () => {
           Travel Advisor
         </Typography>
         <Box sx={{ display: "flex" }}>
-          <Typography variant="h6" sx={{ mr: 1 }}>
+          <Typography variant="h6" sx={{ mr: 1 }} className="header-subtitle">
             Explore new places
           </Typography>
-          {/* <Autocomplete> */}
-          <div className="search">
-            <div className="search-icon">
-              <SearchIcon />
+          <Autocomplete
+            onPlaceChanged={onPlaceChanged}
+            onLoad={onLoad}
+            className="search"
+          >
+            <div>
+              <div className="search-icon">
+                <SearchIcon />
+              </div>
+              <InputBase placeholder="Search..." className="header-input" />
             </div>
-            <InputBase placeholder="Search..." className="header-input" />
-          </div>
-          {/* </Autocomplete> */}
+          </Autocomplete>
         </Box>
       </Toolbar>
     </AppBar>

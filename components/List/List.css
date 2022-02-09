@@ -11,6 +11,12 @@
   overflow: auto;
   height: 75vh;
 }
+.loading {
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 @media screen and (max-width: 768px) {
   .list-form-container {

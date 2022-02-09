@@ -5,7 +5,6 @@ import Rating from "@mui/material/Rating";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 
 import "./Map.css";
-import { Place } from "@mui/icons-material";
 
 const Map = ({
   coordinates,
@@ -13,6 +12,7 @@ const Map = ({
   setBounds,
   places,
   setChildClicked,
+  weatherData,
 }) => {
   const isLaptop = useMediaQuery("(min-width:768px)");
 
@@ -26,7 +26,6 @@ const Map = ({
         margin={[50, 50, 50, 50]}
         options={""}
         onChange={(e) => {
-          console.log(e);
           setCoordinates({ lat: e.center.lat, lng: e.center.lng });
           setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
         }}
@@ -53,14 +52,31 @@ const Map = ({
                           ? place.photo.images.large.url
                           : "https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg"
                       }
+                      alt={place.name}
                     />
-                    <Rating size="small" value={place.rating} readOnly />
+                    {place.rating && (
+                      <Rating
+                        size="small"
+                        value={Number(place.rating)}
+                        readOnly
+                      />
+                    )}
                   </Paper>
                 )}
               </>
             )}
           </div>
         ))}
+        {weatherData?.list?.length &&
+          weatherData.list.map((data, i) => (
+            <div key={i} lat={data.coord.lat} lng={data.coord.lon}>
+              <img
+                src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+                alt=""
+                height="70px"
+              />
+            </div>
+          ))}
       </GoogleMapReact>
     </div>
   );

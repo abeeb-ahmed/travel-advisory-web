@@ -13,7 +13,9 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 
-const PlaceDetails = ({ place }) => {
+const PlaceDetails = ({ place, selected, refProp }) => {
+  if (selected)
+    refProp?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   return (
     <>
       {place.name && (
@@ -42,9 +44,9 @@ const PlaceDetails = ({ place }) => {
               }}
             >
               {place.rating && <Rating value={Number(place.rating)} />}
-              {place.num_reviews && (
+              {place.num_reviews >= 1 && (
                 <Typography variant="subtitle2">
-                  out of {place.num_reviews} reviews
+                  out of {place.num_reviews} review(s)
                 </Typography>
               )}
             </Box>
@@ -56,9 +58,15 @@ const PlaceDetails = ({ place }) => {
                 alignItems: "center",
               }}
             >
-              <Typography variant="subtitle1">Price</Typography>
+              {place.price_level && (
+                <>
+                  <Typography variant="subtitle1">Price</Typography>
 
-              <Typography variant="subtitle2">{place?.price_level}</Typography>
+                  <Typography variant="subtitle2">
+                    {place?.price_level}
+                  </Typography>
+                </>
+              )}
             </Box>
             <Box
               sx={{
@@ -69,12 +77,16 @@ const PlaceDetails = ({ place }) => {
               }}
             >
               {place.ranking && (
-                <Typography gutterButtom variant="subtitle1">
+                <Typography gutterButtom variant="subtitle1" sx={{ mr: 3 }}>
                   Ranking
                 </Typography>
               )}
 
-              <Typography gutterButtom variant="subtitle2">
+              <Typography
+                gutterButtom
+                variant="subtitle2"
+                sx={{ textAlign: "right" }}
+              >
                 {place?.ranking}
               </Typography>
             </Box>
